@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: myapp-rc
+  labels:
+    type: frontend
+    app: myapp
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+  replicas: 3
+
+  # kubectl create -f replication-controller.yaml
+  # kubectl get replicationcontroller
+
+---
+apiVersion: apps/v1 # important
+kind: ReplicaSet
+metadata:
+  name: myapp-rs
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: frontend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30004
+  selector:
+    app: myapp
