@@ -1,0 +1,35 @@
+name: Test Artifacts
+
+on:
+  issue_comment:
+    types: [created, deleted]
+
+jobs:
+  upload-artifact:
+    name: Upload commit id
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: deployed-commit
+      - name: print previous-commit
+        run: cat deployed-commit.txt
+      - name: read previous deployed-commit
+        id: read-commit
+        run: echo "PREVIOUS_DEPLOYED_COMMIT=$(cat deployed-commit.txt)" >> $GITHUB_OUTPUT
+
+      - name: Check whether both are same
+        if: steps.read-commit.PREVIOUS_DEPLOYED_COMMIT == github.sha
+        run: echo "Skipping since both commits are the same"
+
+      - name: store commit id
+        run: echo ${{ github.sha }} > deployed-commit.txt
+      - name: print commit id
+        run: cat deployed-commit.txt
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 5
+          name: deployed-commit
+          path: deployed-commit.txt
