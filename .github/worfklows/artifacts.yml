@@ -30,6 +30,6 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
-          retention-days: 5
+          retention-days: 3
           name: deployed-commit
           path: deployed-commit.txt
