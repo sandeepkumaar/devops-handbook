@@ -86,3 +86,15 @@ Context variable are an extensive set that specific and grouped under different 
 
 Accessed with `${{ github.event_name }}`
 
+
+### Difference between Environment Variable vs Context Variables
+- `run` command can understand the environment variables from the runner (eg. ubuntu-latest) and also the env variables
+and default variables that are supplied by github action to the runner
+
+- parts other than `run` say `if` `name` where runner is GithubAction not Ubuntu - so using $VARIABLES wont work, 
+we need to use context variables like ${{ github_even_name }}
+
+- we can also use context variables inside `run` - Github takes care of sending it to ubuntu so it can understand
+
+
+

@@ -5,23 +5,24 @@ on:
   push: 
     branches: 
       - test-workflow
-
-
+env: 
+  NAME: 'test-variable'
 
 jobs: 
   test: 
-    name: test-variables
+    name: $NAME
     runs-on: ubuntu-latest
     steps: 
       - name: step-1
         run: |
+          echo "name: $X"
           echo "OS variables PWD: $PWD"
           echo "Github default variable GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
           echo "Github contect variable github.event_name: ${{ github.event_name }}"
           echo "GITHUB_REF: $GITHUB_REF"
           echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
           echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
-          echo "GITHUB_SHA: $GITHUB_REF_SHA"
+          echo "GITHUB_SHA: $GITHUB_SHA"
           echo "github.ref: ${{ github.ref }}"
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "github.ref_type: ${{ github.ref_type }}"
