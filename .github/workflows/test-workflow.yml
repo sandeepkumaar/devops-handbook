@@ -1,4 +1,4 @@
-name: Test Workflow
+name: test-workflow
 
 # on push to `test-workflow` branch run the below jobs
 on: 
@@ -9,14 +9,23 @@ on:
 
 
 jobs: 
-  simple-job: 
-    name: test-job
+  test: 
+    name: test-variables
     runs-on: ubuntu-latest
     steps: 
       - name: step-1
         run: |
-          echo 'message'
-          echo $pwd
+          echo "OS variables PWD: $PWD"
+          echo "Github default variable GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+          echo "Github contect variable github.event_name: ${{ github.event_name }}"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
+          echo "GITHUB_SHA: $GITHUB_REF_SHA"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref_type: ${{ github.ref_type }}"
+          echo "github.sha: ${{ github.sha }}"
       
 
 

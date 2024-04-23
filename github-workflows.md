@@ -59,5 +59,30 @@ env:
 Available at top-level, Job-level and step level.
 
 ### Default Variables
+Gihub provides some default variables that are accessible across workflows. Some of them are based on *Context* changes
+based on which context its running in
+Ref: https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+```
+- CI
+- GITHUB_*
+- RUNNER_*
+```
+Accessed through `$GITHUB_EVENT_NAME
 
 ## Github Context variables
+Context variable are an extensive set that specific and grouped under different context
+- github  // also available in GITHUB_*
+- env 
+- vars 
+- job 
+- jobs 
+- steps 
+- runner 
+- secrets 
+- strategy 
+- matrix 
+- needs 
+- inputs 
+
+Accessed with `${{ github.event_name }}`
+
