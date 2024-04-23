@@ -11,7 +11,7 @@ env:
 jobs: 
   test: 
   #name: $NAME # not 'test-variable' because $NAME is interpreted only inside ubuntu runner
-    name: `TEST ${{ env.NAME }}` # test-variable
+    name: TEST ${{ env.NAME }} # test-variable
     runs-on: ubuntu-latest
     steps: 
       - name: step-1
