@@ -46,6 +46,7 @@ RUN npm install    // RUN is used to run any shell commands in the linux os.
 ```
 Note: Each entry in the Dockerfile creates a image layer and laid on top of the previous entry. 
 Having more image layers will slow down building process and may increase the size.
+
 ## Dockerfile best practices
 
 1. Use Official Base image - for security

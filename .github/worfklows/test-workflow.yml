@@ -1,0 +1,22 @@
+name: Test Workflow
+
+# on push to `test-workflow` branch run the below jobs
+on: 
+  push: 
+    branches: 
+      - test-workflow
+
+
+
+jobs: 
+  simple-job: 
+    name: test-job
+    runs-on: ubuntu-latest
+    steps: 
+      - name: step-1
+        run: |
+          echo 'message'
+          echo $pwd
+      
+
+
