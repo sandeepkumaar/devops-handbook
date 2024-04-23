@@ -30,10 +30,10 @@ jobs:
           echo "github.ref_type: ${{ github.ref_type }}"
           echo "github.sha: ${{ github.sha }}"
       - name: conditional-step-true
-          if: ${{ env.NAME == 'test-variable'}}
-          run: |
-            echo "${{ env.NAME }}"
-            echo "$NAME"
+        if: ${{ env.NAME == 'test-variable'}}
+        run: |
+          echo "${{ env.NAME }}"
+          echo "$NAME"
       - name: conditional-step-false
         if: ${{ env.NAME == 'test'}}
         run: |
