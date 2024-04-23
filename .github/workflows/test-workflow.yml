@@ -10,12 +10,13 @@ env:
 
 jobs: 
   test: 
-    name: $NAME
+  #name: $NAME # not 'test-variable' because $NAME is interpreted only inside ubuntu runner
+    name: ${{ envNAME }} # test-variable
     runs-on: ubuntu-latest
     steps: 
       - name: step-1
         run: |
-          echo "name: $X"
+          echo "name: $NAME"
           echo "OS variables PWD: $PWD"
           echo "Github default variable GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
           echo "Github contect variable github.event_name: ${{ github.event_name }}"
