@@ -10,8 +10,9 @@ env:
 
 jobs: 
   test: 
-  #name: $NAME # not 'test-variable' because $NAME is interpreted only inside ubuntu runner
-    name: TEST ${{ env.NAME }} # test-variable
+    # name: $NAME # not 'test-variable' because $NAME is interpreted only inside ubuntu runner
+    # name: TEST ${{ var.NAME }} # throwing error
+    name: test
     runs-on: ubuntu-latest
     steps: 
       - name: step-1
@@ -28,6 +29,15 @@ jobs:
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "github.ref_type: ${{ github.ref_type }}"
           echo "github.sha: ${{ github.sha }}"
+      - name: conditional-step-true
+          if: ${{ env.NAME == 'test-variable'}}
+          run: |
+            echo "${{ env.NAME }}"
+            echo "$NAME"
+      - name: conditional-step-false
+        if: ${{ env.NAME == 'test'}}
+        run: |
+          echo "false"
       
 
 
