@@ -134,6 +134,18 @@ $ docker logs <container>
 ```
 
 ## Pruning Container/Images
+```
+docker ps -a // list all container running & stopped
+docker stop <container_id_or_name>
+docker rm <container_id_or_name>
+docker rm -f <container_id_or_name>
+docker container prune
+
+docker images
+docker rmi <image_id_or_name>
+docker rmi -f <image_id_or_name>
+docker image prune
+```
 
 ## Building image
 ```
