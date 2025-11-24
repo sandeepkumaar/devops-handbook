@@ -1,5 +1,5 @@
 ## Docker Conventions
-## Docker Resource mapping <External>:<Internal>
+## Docker Resource mapping \<External\>:\<Internal\>
 - External resource (host, network, or Docker-managed)
 - Internal container resource
 
