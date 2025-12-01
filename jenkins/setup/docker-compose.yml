@@ -1,0 +1,55 @@
+version: '3.8'
+
+networks:
+  jenkins:
+    driver: bridge  # Isolated network for Jenkins-Docker communication
+
+services:
+  # Docker Daemon (DinD) - provides Docker API for Jenkins to spawn ephemeral containers
+  docker:
+    image: docker:dind
+    container_name: jenkins-docker
+    privileged: true  # Required for DinD to run Docker daemon inside container
+    restart: unless-stopped
+    networks:
+      - jenkins  
+    environment:
+      DOCKER_TLS_CERTDIR: /certs  # Directory for TLS certificates
+    volumes:
+      - jenkins-docker-certs:/certs/client  # TLS certs shared with Jenkins
+      - jenkins-data:/var/jenkins_home:rw  # Optional: for Jenkins to access host Docker socket if needed
+    ports:
+      - "2376:2376"  # Expose Daemon port
+    command: --storage-driver overlay2  # Use overlay2 for better performance
+    healthcheck:  # Ensures daemon is ready before Jenkins starts
+      test: ["CMD", "docker", "info"]  
+      interval: 10s  
+      timeout: 5s    
+      retries: 5     # Mark healthy after 5 consecutive successes
+
+  # Jenkins Master - orchestrates CI/CD jobs and spawns agent containers
+  jenkins:
+    build: .  # Build from local Dockerfile 
+    container_name: jenkins-blueocean
+    restart: unless-stopped
+    networks:
+      - jenkins  
+    environment:
+      DOCKER_HOST: tcp://docker:2376  # Connect to Daemon via TCP
+      DOCKER_CERT_PATH: /certs/client  # Path to TLS certificates
+      DOCKER_TLS_VERIFY: "1"  # Enable TLS verification for security
+    volumes:
+      - jenkins-data:/var/jenkins_home  # Persistent Jenkins configuration and jobs
+      - jenkins-docker-certs:/certs/client:ro  # Read-only access to Docker TLS certs
+    ports:
+      - "8081:8080"   # Expose Jenkins Portal
+      - "50000:50000" # Jenkins agent communication port
+    depends_on:
+      docker:
+        condition: service_healthy  # Wait for Docker daemon to be fully ready
+
+volumes:
+  jenkins-data:      # Persistent storage for Jenkins configs, jobs, and logs
+    driver: local
+  jenkins-docker-certs:  # TLS certificates for secure Docker API communication
+    driver: local
